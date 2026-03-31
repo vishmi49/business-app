@@ -1,14 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Business App API is running!");
+  res.json({ message: "Business App API is running!", status: "ok" });
 });
 
 app.listen(PORT, () => [
-  console.log(`Server is running on https://localhost:${PORT}`),
+  console.log(
+    `Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`
+  ),
 ]);
