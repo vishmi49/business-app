@@ -6,7 +6,7 @@ module.exports = [
       prettier,
     },
     rules: {
-      'no-console': 'warn',
+      'no-console': 'off',
       'no-unused-vars': 'warn',
       'prettier/prettier': 'error',
     },
