@@ -19,6 +19,33 @@ Client Management
 • Create client.
 • Update client information
 
+### Customer Inquiry (Public-Facing)
+
+- Customers can submit an inquiry through a **public page** — no login required.
+- The inquiry form collects: customer name, company name, contact number, email,
+  and an order description.
+- The **description field uses TipTap** rich text editor — supports bold, headings,
+  highlights, and bullet points.
+- **No file uploads** — if a customer needs to share artwork or logos, that is handled
+  through the in-person conversation with the admin after the inquiry is received.
+- On submission, an **email notification is sent to all admin owners** via Resend.
+- The customer receives a **confirmation message** on screen (not an email).
+- The inquiry is **not automatically converted to an order** — it is just a
+  notification. The admin contacts the customer in person and creates the order
+  manually in the system.
+- Inquiries are stored in the database for reference.
+
+### Inquiry
+
+```
+name            String    required
+companyName     String
+contactNumber   String    required
+email           String    required
+description     String    HTML from TipTap rich text editor
+createdAt                 Auto
+```
+
 ### Order Management
 
 • Admins view the order details.
@@ -95,6 +122,8 @@ This system should have following non- functional requirements.
 
 # Note
 
+Assume you are an expert in Fullstack development in Node.js and react.
+
 Always ask before using new tools and and clarify the need of the tool.
 This system needs to be developed in small phases. Also, you should not implement anything beyond scope. But if it’s something that’s not mentioned here and you feel it’s needed, always ask the question without assuming.
 
@@ -117,3 +146,33 @@ business-app/
 ├── client/ # React frontend (separate folder)
 ├── .env
 └── server.js
+
+## Phase Status Table
+
+| 1 | Foundation & Authentication | ✅ Complete |
+| 2 | Inquiry Handling (public form + S3 uploads) | 🔄 In progress |
+
+## Current File State (Phase 2 in progress)
+
+**Complete (Phase 1):**
+
+- `server.js` — entry point, connects DB, starts server
+- `src/app.js` — Express app, middleware, routes
+- `src/config/db.js` — Mongoose connection singleton
+- `src/models/admin.model.js` — Admin schema with bcrypt pre-save hook
+- `src/controllers/auth.controller.js` — login, logout, forgotPassword, resetPassword
+- `src/middleware/auth.middleware.js` — JWT verification, attaches req.admin
+- `src/middleware/error.middleware.js` — global error handler
+- `src/routes/auth.routes.js` — auth route definitions
+- `scripts/seedAdmins.js` — seeds admin accounts from .env
+- `src/tests/auth.test.js` — 11 unit tests, all passing
+
+**To be created in Phase 2:**
+
+- `src/config/s3.js`
+- `src/models/inquiry.model.js`
+- `src/controllers/inquiry.controller.js`
+- `src/routes/inquiry.routes.js`
+- `src/utils/s3.js`
+- `src/utils/email.js`
+- `src/tests/inquiry.test.js`
