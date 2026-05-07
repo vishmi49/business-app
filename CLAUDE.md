@@ -55,9 +55,16 @@ createdAt                 Auto
 • Should be able to mark the quality failures, and the amount/none of quality failures of the orders. For quality failures record the number of failed items on and order.
 • Update order details( deadline, quantity, price, notes)
 • View orders of a client.
-• Admin should be able search and filter orders by order number, status deadline
+• Admin should be able search and filter orders by order number, status deadline, client name.
+GET /api/orders filter: status, deadline, orderNumber, clientName, date range
+• When creating new orders, order number should be generated automatically. on creation — format ORD-YYYY-NNN, resets to 001 at the start of each new year.
 
-When a customer submits the inquiry form,it should be arrived as an email to the admin. admin is the one who properly create the order.
+- Admin can **record quality failures** — just the count of failed items on an order. The status does not change automatically. Failed item count is informational only — visible in the UI. If a reprint is needed, the admin manually moves the status back to 'in-production' through the normal status update.
+
+- QC failure — status does NOT change automatically. Admin manually moves status
+  back to 'in-production' if a reprint is needed.
+
+  When a customer submits the inquiry form,it should be arrived as an email to the admin. admin is the one who properly create the order.
 
 Admins should be able to generate invoices to send out to client and the vendors.
 
@@ -65,18 +72,19 @@ Admins should be able to generate invoices to send out to client and the vendors
 
 Business admin should be able manage all the cost and account replated calculations here. This need not to be a perfect account balancing module. But we need to record all expenses and income and profit data.
 
-Admin should be able add all the expenses. There should be a categorization of expenses( material cost, transport, stitching vendor payment, delivery, other.. etc.) and admin can choose the expense type and add the expense. Expense value should be accepted up to two decimal points.
-Admin should be able to add all the income details. Basically, the total amount received from the client. There should be other income category too,
+• Admin should be able add all the expenses. There should be a categorization of expenses( material cost, transport, stitching vendor payment, delivery, other.. etc.) and admin can choose the expense type and add the expense. Expense value should be accepted up to two decimal points.
+• Admin should be able to add all the income details. Basically, the total amount received from the client. There should be other income category too,
 • Profit/loss should be calculated automatically.
-• Admins should be able to view the expenses and profits of each order separately. Also should be able to view the total order expenses and total income and profit.
-• Admins should be able to view the orders per month, week or particular time period. Same as admin should be able view all the expenses and income, profit details per month, week and any time period.
-the selling price would differ based of the cost per unit. admins would discuss and decide the selling price. for now lets keep the as "total price" = quantity × price per unit
+• Admins should be able to view the expenses and profits of each order separately. • Also should be able to view the total order expenses and total income and profit.
+• Admins should be able to view the orders per month, week or particular time period.
+• Same as admin should be able view all the expenses and income, profit details per month, week and any time period.
+• the selling price would differ based of the cost per unit. admins would discuss and decide the selling price. for now lets keep the as "total price" = quantity × price per unit
 
-Every expense should be linked to an order. for example even if the supplies were bought together for several orders, admins should record the expenses per orders. (you can suggest if there a better way to put this in the system )
-There can be both full payments and partial payments from the client, but mostly it can be partial payments.
+• Every expense should be linked to an order. for example even if the supplies were bought together for several orders, admins should record the expenses per orders. (you can suggest if there a better way to put this in the system )
+• There can be both full payments and partial payments from the client, but mostly it can be partial payments.
 For the income side — when a client makes a partial payment, the system should track the outstanding balance per order.There should be a way to mark an order as "fully paid" vs "partially paid" vs "unpaid
 
-invoices
+### invoices
 
 1. it should be a downloadable pdf. should be manually triggered by the admin.
 2. The payment that business owes to the stitching vendor should be a separate invoice.
@@ -150,7 +158,8 @@ business-app/
 ## Phase Status Table
 
 | 1 | Foundation & Authentication | ✅ Complete |
-| 2 | Inquiry Handling (public form + S3 uploads) | 🔄 In progress |
+| 2 | Inquiry Handling (public form + S3 uploads) | ✅ Complete |
+| 3 | Client & Order Management | 🔄 In progress |
 
 ## Current File State (Phase 2 in progress)
 
