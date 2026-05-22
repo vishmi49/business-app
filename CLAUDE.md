@@ -75,10 +75,13 @@ Business admin should be able manage all the cost and account replated calculati
 • Admin should be able add all the expenses. There should be a categorization of expenses( material cost, transport, stitching vendor payment, delivery, other.. etc.) and admin can choose the expense type and add the expense. Expense value should be accepted up to two decimal points.
 • Admin should be able to add all the income details. Basically, the total amount received from the client. There should be other income category too,
 • Profit/loss should be calculated automatically.
-• Admins should be able to view the expenses and profits of each order separately. • Also should be able to view the total order expenses and total income and profit.
+• Admins should be able to view the expenses and profits of each order separately.
+• Also should be able to view the total order expenses and total income and profit.
 • Admins should be able to view the orders per month, week or particular time period.
 • Same as admin should be able view all the expenses and income, profit details per month, week and any time period.
-• the selling price would differ based of the cost per unit. admins would discuss and decide the selling price. for now lets keep the as "total price" = quantity × price per unit
+• the selling price would differ based of the cost per unit. admins would discuss and decide the selling price. for now lets keep the as "total price" = quantity × price per unit.
+• costPerUnit , Calculated field — not stored. Computed as totalCost ÷ quantity
+where totalCost = sum of all expenses for that order.
 
 • Every expense should be linked to an order. for example even if the supplies were bought together for several orders, admins should record the expenses per orders. (you can suggest if there a better way to put this in the system )
 • There can be both full payments and partial payments from the client, but mostly it can be partial payments.
@@ -159,9 +162,10 @@ business-app/
 
 | 1 | Foundation & Authentication | ✅ Complete |
 | 2 | Inquiry Handling (public form + S3 uploads) | ✅ Complete |
-| 3 | Client & Order Management | 🔄 In progress |
+| 3 | Client & Order Management | ✅ Complete |
+| 4 | Expense & Income Management | 🔄 In progress |
 
-## Current File State (Phase 2 in progress)
+## Current File State (Phase 4 in progress)
 
 **Complete (Phase 1):**
 
@@ -176,12 +180,36 @@ business-app/
 - `scripts/seedAdmins.js` — seeds admin accounts from .env
 - `src/tests/auth.test.js` — 11 unit tests, all passing
 
-**To be created in Phase 2:**
+**Complete (Phase 2):**
 
-- `src/config/s3.js`
-- `src/models/inquiry.model.js`
-- `src/controllers/inquiry.controller.js`
-- `src/routes/inquiry.routes.js`
-- `src/utils/s3.js`
-- `src/utils/email.js`
-- `src/tests/inquiry.test.js`
+- `src/models/inquiry.model.js` — Inquiry schema
+- `src/controllers/inquiry.controller.js` — createInquiry
+- `src/routes/inquiry.routes.js` — inquiry route definitions
+- `src/utils/email.js` — Resend email utility
+- `src/tests/inquiry.test.js` — 7 unit tests, all passing
+
+**Complete (Phase 3):**
+
+- `src/models/client.model.js` — Client schema
+- `src/controllers/client.controller.js` — createClient, getClients, getClient, updateClient
+- `src/routes/client.routes.js` — client route definitions
+- `src/models/order.model.js` — Order schema with status pipeline
+- `src/controllers/order.controller.js` — createOrder, getOrders, getOrder, updateOrder, updateOrderStatus, recordQualityFailure, getOrdersByClient
+- `src/routes/order.routes.js` — order route definitions
+- `src/utils/orderNumber.js` — ORD-YYYY-NNN generator
+- `src/tests/client.test.js` — 8 unit tests, all passing
+- `src/tests/order.test.js` — 12 unit tests, all passing
+
+**To be created in Phase 4:**
+
+- `src/models/expense.model.js`
+- `src/controllers/expense.controller.js`
+- `src/routes/expense.routes.js`
+- `src/models/payment.model.js`
+- `src/controllers/payment.controller.js`
+- `src/routes/payment.routes.js`
+- `src/controllers/report.controller.js`
+- `src/routes/report.routes.js`
+- `src/tests/expense.test.js`
+- `src/tests/payment.test.js`
+- `src/tests/report.test.js`

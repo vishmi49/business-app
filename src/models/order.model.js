@@ -69,6 +69,11 @@ const orderSchema = new mongoose.Schema(
       },
       default: 'unpaid',
     },
+    paidAmount: {
+      type: Number,
+      default: 0,
+      min: [0, 'Paid amount cannot be negative'],
+    },
   },
   {
     timestamps: true,

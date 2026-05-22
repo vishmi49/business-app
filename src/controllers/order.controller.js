@@ -203,6 +203,53 @@ const getOrdersByClient = async (req, res) => {
   res.status(200).json({ count: orders.length, orders });
 };
 
+// ── @route   PATCH /api/orders/:id/payment ───────────────────────────────────
+const updatePayment = async (req, res) => {
+  const { paidAmount } = req.body;
+
+  if (paidAmount === undefined || paidAmount === null) {
+    return res.status(400).json({ message: 'Paid amount is required' });
+  }
+
+  if (paidAmount < 0) {
+    return res.status(400).json({ message: 'Paid amount cannot be negative' });
+  }
+
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    return res.status(404).json({ message: 'Order not found' });
+  }
+
+  if (!order.pricePerUnit) {
+    return res.status(400).json({
+      message: 'Price per unit must be set before recording a payment',
+    });
+  }
+
+  const totalPrice = order.quantity * order.pricePerUnit;
+
+  let paymentStatus;
+  if (paidAmount <= 0) {
+    paymentStatus = 'unpaid';
+  } else if (paidAmount >= totalPrice) {
+    paymentStatus = 'fully-paid';
+  } else {
+    paymentStatus = 'partially-paid';
+  }
+
+  order.paidAmount = paidAmount;
+  order.paymentStatus = paymentStatus;
+  await order.save();
+
+  res.status(200).json({
+    message: 'Payment updated successfully',
+    order,
+    totalPrice,
+    outstanding: Math.round((totalPrice - paidAmount) * 100) / 100,
+  });
+};
+
 module.exports = {
   createOrder,
   getOrders,
@@ -211,4 +258,5 @@ module.exports = {
   updateOrderStatus,
   recordQualityFailure,
   getOrdersByClient,
+  updatePayment,
 };
